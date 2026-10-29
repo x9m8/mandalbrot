@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Pawli Mandelbrot Explorer</title>
+    <title>x9m8 Mandelbrot Explorer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -89,8 +89,7 @@
     <script type="importmap">
     {
       "imports": {
-        "@google/genai": "https://esm.sh/@google/genai@1.4.0",
-        "react": "https://esm.sh/react@19.0.0",
+                "react": "https://esm.sh/react@19.0.0",
         "react-dom": "https://esm.sh/react-dom@19.0.0",
         "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
         "lucide-react": "https://esm.sh/lucide-react@0.463.0?external=react"
@@ -115,7 +114,6 @@
         ZoomIn, ZoomOut, RotateCcw, Sparkles, Map as MapIcon, 
         Settings, Trophy, Target, ChevronRight, PlayCircle, Menu, X, MousePointer2, ChevronLeft, Info, Wind 
       } from 'lucide-react';
-      import { GoogleGenAI, Type } from "@google/genai";
 
       const COLOR_SCHEMES = {
         classic: { name: 'Classic Blue', baseHue: 200 },
@@ -325,29 +323,6 @@
           }
         }, [isContinuous, zoomSpeed]);
 
-        const handleAI = async () => {
-          setIsAnalyzing(true);
-          const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-          try {
-            const res = await ai.models.generateContent({
-              model: 'gemini-3-flash-preview',
-              contents: `Analyze fractal at X:${view.centerX}, Y:${view.centerY}, Zoom:${view.zoom}. JSON: title, description, suggestion.`,
-              config: { 
-                responseMimeType: "application/json",
-                responseSchema: {
-                  type: Type.OBJECT,
-                  properties: { title: { type: Type.STRING }, description: { type: Type.STRING }, suggestion: { type: Type.STRING } },
-                  required: ["title", "description", "suggestion"]
-                }
-              }
-            });
-            setAiAnalysis(JSON.parse(res.text));
-          } catch (e) {
-            setAiAnalysis({ title: "Mathematical Infinity", description: "Iteration reveals the boundary between the known and the recursive void.", suggestion: "Explore the mini-Mandelbrots." });
-          }
-          setIsAnalyzing(false);
-        };
-
         const toggleSidebar = () => {
           setSidebarOpen(!sidebarOpen);
           setHasInteractedWithSidebar(true);
@@ -399,7 +374,7 @@
         return (
           <div className="flex h-screen w-full bg-slate-950 text-slate-100 overflow-hidden font-sans relative">
             
-            {/* The Pawli Mandelbrot Explorer Facts Bubble - Disabled on Mobile (hidden by default, md:block for desktops) */}
+            {/* x9m8 Mandelbrot Explorer Facts Bubble - Disabled on Mobile (hidden by default, md:block for desktops) */}
             {!sidebarOpen && (
               <div 
                 className="fact-bubble fixed pointer-events-none md:block hidden"
@@ -411,7 +386,7 @@
               >
                 <div className="bg-slate-950/70 backdrop-blur-2xl border border-blue-500/20 rounded-3xl px-6 py-4 shadow-2xl max-w-[280px] text-center">
                   <p className="text-[9px] text-blue-400 font-bold uppercase tracking-[0.2em] mb-2 opacity-90 flex items-center justify-center gap-2">
-                    <Sparkles size={12} className="animate-pulse text-blue-300"/> The Pawli Mandelbrot Explorer Facts
+                    <Sparkles size={12} className="animate-pulse text-blue-300"/> x9m8 Mandelbrot Explorer Facts
                   </p>
                   <p className="text-[12px] text-slate-200 leading-relaxed font-medium tracking-tight">
                     {fact}
@@ -520,18 +495,10 @@
                 
                 <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700 rounded-full px-4 py-2 flex items-center gap-4 shadow-xl max-sm:hidden">
                   <span className="text-[10px] font-mono text-slate-400 tracking-widest">X: {view.centerX.toFixed(6)} | Y: {view.centerY.toFixed(6)}</span>
-                  <button onClick={handleAI} disabled={isAnalyzing} className="bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold px-4 py-1 rounded-full flex items-center gap-2 transition-all disabled:opacity-50 shadow-lg">
-                    {isAnalyzing ? <div className="w-3 h-3 border-2 border-white/50 border-t-white rounded-full animate-spin"/> : <Sparkles size={12}/>}
-                    {isAnalyzing ? 'Analyzing' : 'Gemini AI'}
-                  </button>
                 </div>
-                
-                <button onClick={handleAI} disabled={isAnalyzing} className="sm:hidden bg-blue-600 p-3 rounded-full shadow-lg border border-blue-500 transition-all active:scale-95 disabled:opacity-50">
-                   {isAnalyzing ? <div className="w-5 h-5 border-2 border-white/50 border-t-white rounded-full animate-spin"/> : <Sparkles size={20}/>}
-                </button>
 
                 <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700 rounded-full px-5 py-2 hidden sm:flex items-center shadow-xl">
-                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-200 tracking-tight whitespace-nowrap">The Pawli Mandelbrot Explorer</span>
+                  <span className="text-[10px] sm:text-[11px] font-bold text-slate-200 tracking-tight whitespace-nowrap">x9m8 Mandelbrot Explorer</span>
                 </div>
               </div>
 
